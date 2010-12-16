@@ -15,20 +15,6 @@
 @synthesize tweetMessages;
 @synthesize tweetIconURLs;
 
-#pragma mark -
-#pragma mark Timer
-
-static NSDate *timeFrom;
-
-- (void)startTimer {
-	timeFrom = [[NSDate alloc] init];
-}
-
-- (void)stopTimer {
-	NSDate *timeTo = [NSDate new];
-	NSLog(@"load time = %6.3f", [timeTo timeIntervalSinceDate:timeFrom]);
-}
-
 
 #pragma mark -
 #pragma mark Tweitter access
@@ -49,11 +35,11 @@ static NSDate *timeFrom;
 	return result;
 }
 
-- (UIImage *) getImage:(NSString *)url {
+- (UIImage *)getImage:(NSString *)url {
 	return [UIImage imageWithData:[self getData:url]];
 }
 
-- (void)loadPublicTimeline {
+- (void)getPublicTimeline {
 	NSString *jsonString = [[[NSString alloc] initWithData:[self getData:TWITTER_URL_PUBLIC_TIMELINE]
 										 encoding:NSUTF8StringEncoding] autorelease];
 	NSArray *entries = [jsonString JSONValue];
@@ -73,8 +59,7 @@ static NSDate *timeFrom;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	
-	[self startTimer];
-	[self loadPublicTimeline];
+	[self getPublicTimeline];
 	[self.tableView reloadData];
 }
 
@@ -103,8 +88,6 @@ static NSDate *timeFrom;
 	cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
 	cell.imageView.image = [self getImage:[tweetIconURLs objectAtIndex:[indexPath row]]];
 	
-	if ([indexPath row] == 6) [self stopTimer];
-
     return cell;
 }
 
@@ -123,7 +106,7 @@ static NSDate *timeFrom;
 
 - (void)dealloc {
 	[tweetMessages release];
-	[tweetIconURLs    release];
+	[tweetIconURLs release];
     [super dealloc];
 }
 
