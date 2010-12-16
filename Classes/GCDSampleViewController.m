@@ -70,15 +70,29 @@ static NSDate *timeFrom;
 #pragma mark -
 #pragma mark View lifecycle
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 	
 	[self startTimer];
-	[self loadPublicTimeline];
-	[self.tableView reloadData];
+	main_queue = dispatch_get_main_queue();
+	timeline_queue = dispatch_queue_create("com.ey-office.gcd-sample.timeline", NULL);
+	image_queue = dispatch_queue_create("com.ey-office.gcd-sample.image", NULL);
+	
+	dispatch_async(timeline_queue, ^{
+		[self loadPublicTimeline];
+		dispatch_async(main_queue, ^{
+			[self.tableView reloadData];
+		});
+	});
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
 
+	dispatch_release(timeline_queue);
+	dispatch_release(image_queue);
+}
+					   
 #pragma mark -
 #pragma mark Table view data source
 
@@ -87,11 +101,18 @@ static NSDate *timeFrom;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return tweetMessages ? [tweetMessages count] : 0;
+	return tweetMessages ? [tweetMessages count] : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"SampleTable";
+	
+	if (!tweetMessages) {
+		UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+		cell.textLabel.text = @"loading...";
+		cell.textLabel.textColor = [UIColor grayColor];
+		return cell;
+	}
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -101,9 +122,18 @@ static NSDate *timeFrom;
 	cell.textLabel.adjustsFontSizeToFitWidth = YES;
 	cell.textLabel.numberOfLines = 3;
 	cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
-	cell.imageView.image = [self getImage:[tweetIconURLs objectAtIndex:[indexPath row]]];
-	
-	if ([indexPath row] == 6) [self stopTimer];
+	cell.textLabel.textColor = [UIColor darkGrayColor];
+	cell.imageView.image = [UIImage imageNamed:@"blank.png"];
+
+	dispatch_async(image_queue, ^{
+		UIImage *icon = [self getImage:[tweetIconURLs objectAtIndex:[indexPath row]]];
+		dispatch_async(main_queue, ^{
+			UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+			cell.imageView.image = icon;
+		});
+	});
+
+	if ([indexPath row] == 6) 	[self stopTimer];
 
     return cell;
 }

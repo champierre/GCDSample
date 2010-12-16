@@ -11,6 +11,10 @@
 @interface GCDSampleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource> {
 	NSMutableArray *tweetMessages;
 	NSMutableArray *tweetIconURLs;
+
+	dispatch_queue_t main_queue;
+	dispatch_queue_t timeline_queue;
+	dispatch_queue_t image_queue;
 }
 @property (nonatomic, retain) NSMutableArray *tweetMessages;
 @property (nonatomic, retain) NSMutableArray *tweetIconURLs;
