@@ -16,21 +16,6 @@
 @synthesize tweetIconURLs;
 
 #pragma mark -
-#pragma mark Timer
-
-static NSDate *timeFrom;
-
-- (void)startTimer {
-	timeFrom = [[NSDate alloc] init];
-}
-
-- (void)stopTimer {
-	NSDate *timeTo = [NSDate new];
-	NSLog(@"load time = %6.3f", [timeTo timeIntervalSinceDate:timeFrom]);
-}
-
-
-#pragma mark -
 #pragma mark Tweitter access
 
 
@@ -53,7 +38,7 @@ static NSDate *timeFrom;
 	return [UIImage imageWithData:[self getData:url]];
 }
 
-- (void)loadPublicTimeline {
+- (void)getPublicTimeline {
 	NSString *jsonString = [[[NSString alloc] initWithData:[self getData:TWITTER_URL_PUBLIC_TIMELINE]
 										 encoding:NSUTF8StringEncoding] autorelease];
 	NSArray *entries = [jsonString JSONValue];
@@ -73,13 +58,12 @@ static NSDate *timeFrom;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	
-	[self startTimer];
 	main_queue = dispatch_get_main_queue();
 	timeline_queue = dispatch_queue_create("com.ey-office.gcd-sample.timeline", NULL);
 	image_queue = dispatch_queue_create("com.ey-office.gcd-sample.image", NULL);
 	
 	dispatch_async(timeline_queue, ^{
-		[self loadPublicTimeline];
+		[self getPublicTimeline];
 		dispatch_async(main_queue, ^{
 			[self.tableView reloadData];
 		});
@@ -132,8 +116,6 @@ static NSDate *timeFrom;
 			cell.imageView.image = icon;
 		});
 	});
-
-	if ([indexPath row] == 6) 	[self stopTimer];
 
     return cell;
 }

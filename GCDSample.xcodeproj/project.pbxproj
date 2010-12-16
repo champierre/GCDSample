@@ -13,6 +13,7 @@
 		1B88236312B8A6B600D6D3EE /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B88235D12B8A6B600D6D3EE /* SBJsonParser.m */; };
 		1B88236412B8A6B600D6D3EE /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B88235F12B8A6B600D6D3EE /* SBJsonWriter.m */; };
 		1BC3F85812B9C99800898817 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC3F85712B9C99800898817 /* blank.png */; };
+		1BC3F8E912B9DCA300898817 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC3F8E812B9DCA300898817 /* icon.png */; };
 		1D3623260D0F684500981E51 /* GCDSampleAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* GCDSampleAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -36,6 +37,7 @@
 		1B88235E12B8A6B600D6D3EE /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		1B88235F12B8A6B600D6D3EE /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		1BC3F85712B9C99800898817 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
+		1BC3F8E812B9DCA300898817 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* GCDSampleAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDSampleAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* GCDSampleAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDSampleAppDelegate.m; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1BC3F8E812B9DCA300898817 /* icon.png */,
 				2899E5210DE3E06400AC0155 /* GCDSampleViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				1BC3F85712B9C99800898817 /* blank.png */,
@@ -197,6 +200,7 @@
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* GCDSampleViewController.xib in Resources */,
 				1BC3F85812B9C99800898817 /* blank.png in Resources */,
+				1BC3F8E912B9DCA300898817 /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
