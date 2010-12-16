@@ -1,4 +1,4 @@
-= Grand Central Dispatchを使ったTwitter public timeline取得の iPhoneサンプルプログラム
+== Grand Central Dispatchを使ったTwitter public timeline取得の iPhoneサンプルプログラム
 
 解説は Blog[http://d.hatena.ne.jp/yuum3/20101216/1292490323] を参照してくださ。
 
