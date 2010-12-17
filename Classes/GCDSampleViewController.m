@@ -57,26 +57,33 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	
-	main_queue = dispatch_get_main_queue();
-	timeline_queue = dispatch_queue_create("com.ey-office.gcd-sample.timeline", NULL);
-	image_queue = dispatch_queue_create("com.ey-office.gcd-sample.image", NULL);
-	
-	dispatch_async(timeline_queue, ^{
-		[self getPublicTimeline];
-		dispatch_async(main_queue, ^{
-			[self.tableView reloadData];
+
+	if (dispatch_queue_create != NULL) {
+		main_queue = dispatch_get_main_queue();
+		timeline_queue = dispatch_queue_create("com.ey-office.gcd-sample.timeline", NULL);
+		image_queue = dispatch_queue_create("com.ey-office.gcd-sample.image", NULL);
+
+		dispatch_async(timeline_queue, ^{
+			[self getPublicTimeline];
+			dispatch_async(main_queue, ^{
+				[self.tableView reloadData];
+			});
 		});
-	});
+	} else {
+		[self getPublicTimeline];
+		[self.tableView reloadData];
+	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 
-	dispatch_release(timeline_queue);
-	dispatch_release(image_queue);
+	if (dispatch_queue_create != NULL) {
+		dispatch_release(timeline_queue);
+		dispatch_release(image_queue);
+	}
 }
-					   
+
 #pragma mark -
 #pragma mark Table view data source
 
@@ -107,15 +114,19 @@
 	cell.textLabel.numberOfLines = 3;
 	cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
 	cell.textLabel.textColor = [UIColor darkGrayColor];
-	cell.imageView.image = [UIImage imageNamed:@"blank.png"];
 
-	dispatch_async(image_queue, ^{
-		UIImage *icon = [self getImage:[tweetIconURLs objectAtIndex:[indexPath row]]];
-		dispatch_async(main_queue, ^{
-			UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-			cell.imageView.image = icon;
+	if (dispatch_queue_create != NULL) {
+		cell.imageView.image = [UIImage imageNamed:@"blank.png"];
+		dispatch_async(image_queue, ^{
+			UIImage *icon = [self getImage:[tweetIconURLs objectAtIndex:[indexPath row]]];
+			dispatch_async(main_queue, ^{
+				UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+				cell.imageView.image = icon;
+			});
 		});
-	});
+	} else {
+		cell.imageView.image = [self getImage:[tweetIconURLs objectAtIndex:[indexPath row]]];
+	}
 
     return cell;
 }

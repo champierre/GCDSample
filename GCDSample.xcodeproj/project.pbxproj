@@ -235,6 +235,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GCDSample_Prefix.pch;
 				INFOPLIST_FILE = "GCDSample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.2;
 				PRODUCT_NAME = GCDSample;
 			};
 			name = Debug;
