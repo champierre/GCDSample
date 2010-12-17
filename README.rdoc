@@ -1,8 +1,8 @@
 == Grand Central Dispatchを使ったTwitter public timeline取得の iPhoneサンプルプログラム
 
-解説は Blog[http://d.hatena.ne.jp/yuum3/20101216/1292490323] を参照してくださ。
+Blog[http://d.hatena.ne.jp/yuum3/20101216/1292490323] で紹介されているコードに手を加え、ひとつのソースで iOS 3.1.2 と 4.x の両方で動くようにしました。
 
-no_thread ブランチが 「スレッドをまったく使わないコード」で gcd ブランチが 「Grand Central Dispatchを使ったコード」です。
+GCD(Grand Central Dispatch)のキューを作成する dispatch_queue_create が使えるかどうかで GCD が利用できるかを判定し、処理を切り替えるようにしています。
 
 === License
 
